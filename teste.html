@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página da Saudade</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #ffecf2; /* Cor de fundo rosa claro */
+            color: #333;
+            margin: 0; /* Remove margens do corpo */
+        }
+        h1 {
+            color: #d23c4c; /* Cor vermelha escura */
+            margin-bottom: 20px;
+            font-size: 36px;
+        }
+        .counter {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #d23c4c; /* Cor vermelha escura para os contadores */
+        }
+        .counter-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .button {
+            display: inline-block;
+            margin: 10px;
+            padding: 12px 24px;
+            background-color: #d23c4c; /* Cor vermelha escura para o botão */
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #b33044; /* Cor mais escura ao passar o mouse */
+        }
+        footer {
+            margin-top: 50px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Página da Saudade</h1>
+
+    <div class="counter-title">Tempo juntos:</div>
+    <div class="counter" id="tempoJuntos">
+        Calculando tempo juntos...
+    </div>
+
+    <div class="counter-title">Tempo sem se abraçar:</div>
+    <div class="counter" id="tempoSemAbracar">
+        Calculando tempo sem se abraçar...
+    </div>
+
+    <div class="counter-title">Tempo sem se ver:</div>
+    <div class="counter" id="tempoSemVer">
+        Calculando tempo sem se ver...
+    </div>
+
+    <div>
+        <button class="button" onclick="resolverSaudade('ver')">Saudades de me ver? Clique aqui</button>
+        <button class="button" onclick="resolverSaudade('abraçar')">Saudades de me abraçar? Clique aqui</button>
+    </div>
+
+    <footer>
+        Made by Senaxz
+    </footer>
+
+    <script>
+        // Função para calcular o tempo decorrido em dias, horas, minutos e segundos
+        function calcularTempoDecorrido(data1, data2) {
+            const diff = Math.abs(data2.getTime() - data1.getTime());
+
+            const segundos = Math.floor(diff / 1000);
+            const minutos = Math.floor(segundos / 60);
+            const horas = Math.floor(minutos / 60);
+            const dias = Math.floor(horas / 24);
+
+            const horasRestantes = horas % 24;
+            const minutosRestantes = minutos % 60;
+            const segundosRestantes = segundos % 60;
+
+            return {
+                dias: dias,
+                horas: horasRestantes,
+                minutos: minutosRestantes,
+                segundos: segundosRestantes
+            };
+        }
+
+        // Data de início do relacionamento
+        const dataInicio = new Date('2024-03-29');
+
+        // Data do último abraço
+        const ultimoAbraço = new Date('2024-06-01T16:00:00');
+
+        // Data da última vez que se viram
+        const ultimaVez = new Date('2024-06-12T22:15:00');
+
+        // Atualiza os contadores de tempo
+        function atualizarContadores() {
+            const hoje = new Date();
+
+            // Tempo juntos
+            const tempoJuntos = calcularDiferencaEmDias(dataInicio, hoje);
+            document.getElementById('tempoJuntos').textContent = `${tempoJuntos} dias`;
+
+            // Tempo sem se abraçar
+            const tempoSemAbracar = calcularTempoDecorrido(ultimoAbraço, hoje);
+            document.getElementById('tempoSemAbracar').textContent = `${tempoSemAbracar.dias} dias, ${tempoSemAbracar.horas} horas, ${tempoSemAbracar.minutos} minutos, ${tempoSemAbracar.segundos} segundos`;
+
+            // Tempo sem se ver
+            const tempoSemVer = calcularTempoDecorrido(ultimaVez, hoje);
+            document.getElementById('tempoSemVer').textContent = `${tempoSemVer.dias} dias, ${tempoSemVer.horas} horas, ${tempoSemVer.minutos} minutos, ${tempoSemVer.segundos} segundos`;
+        }
+
+        // Função para calcular o tempo decorrido em dias entre duas datas
+        function calcularDiferencaEmDias(data1, data2) {
+            const diff = Math.abs(data2.getTime() - data1.getTime());
+            return Math.floor(diff / (1000 * 60 * 60 * 24));
+        }
+
+        // Função para resolver a saudade (abraçar ou ver)
+        function resolverSaudade(tipo) {
+            if (tipo === 'abraçar') {
+                window.location.href = 'https://api.whatsapp.com/send?phone=5584987059434&text=Oi%20amor%2C%20estou%20com%20saudades%20de%20te%20abra%C3%A7ar%2C%20vamos%20se%20abracar%20hoje%3F';
+            } else if (tipo === 'ver') {
+                window.location.href = 'https://api.whatsapp.com/send?phone=5584987059434&text=Oi%20amor%2C%20estou%20com%20saudades%20de%20te%20ver%2C%20vamos%20se%20ver%20hoje%3F';
+            }
+        }
+
+        // Chamada inicial para atualizar os contadores
+        atualizarContadores();
+
+        // Atualiza os contadores a cada segundo (1000 milissegundos)
+        setInterval(atualizarContadores, 1000);
+    </script>
+</body>
+</html>
